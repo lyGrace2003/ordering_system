@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ordering_system/auth/authcontroller.dart';
+import 'package:ordering_system/screens/admin/admin_home_screen.dart';
+import 'package:ordering_system/screens/admin/admin_menu_screen.dart';
+import 'package:ordering_system/screens/admin/admin_register_screen.dart';
 import 'package:ordering_system/screens/cashier/cashier_home_screen.dart';
 import 'package:ordering_system/screens/customer/home_screen.dart';
 import 'package:ordering_system/screens/kitchen/kitchen_home_screen.dart';
@@ -36,21 +39,27 @@ class GlobalRouter{
 
         if (AuthController.I.state == AuthState.authenticated) {
           if (state.matchedLocation == Loginscreen.route) {
-            if(role == 'Customer'){
-              return CustomerHomeScreen.route; 
-            }else if (role == 'Kitchen'){
-              return KitchenHomeScreen.route;
-            }else if (role == 'Cashier'){
-              return CashierHomeScreen.route;
+            switch (role) {
+              case 'Customer':
+                return CustomerHomeScreen.route;
+              case 'Kitchen':
+                return KitchenHomeScreen.route;
+              case 'Cashier':
+                return CashierHomeScreen.route;
+              case 'Admin':
+                return AdminHomeScreen.route;
             }
           }
           if (state.matchedLocation == RegisterScreen.route) {
-            if(role == 'customer'){
-              return CustomerHomeScreen.route; 
-            }else if (role == 'kitchen'){
-              return KitchenHomeScreen.route;
-            }else if (role == 'cashier'){
-              return CashierHomeScreen.route;
+            switch (role) {
+              case 'Customer':
+                return CustomerHomeScreen.route;
+              case 'Kitchen':
+                return KitchenHomeScreen.route;
+              case 'Cashier':
+                return CashierHomeScreen.route;
+              case 'Admin':
+                return AdminHomeScreen.route;
             }
           }
           return null;
@@ -114,6 +123,30 @@ class GlobalRouter{
             name: KitchenHomeScreen.name,
             builder: (context, _){
               return const KitchenHomeScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: AdminMenuScreen.route,
+            name: AdminMenuScreen.name,
+            builder: (context, _){
+              return const AdminMenuScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: AdminRegisterScreen.route,
+            name: AdminRegisterScreen.name,
+            builder: (context, _){
+              return const AdminRegisterScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: AdminHomeScreen.route,
+            name: AdminHomeScreen.name,
+            builder: (context, _){
+              return const AdminHomeScreen();
             }
           ),
         ]

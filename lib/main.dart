@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ordering_system/auth/authcontroller.dart';
+import 'package:ordering_system/firebase/services.dart';
 import 'package:ordering_system/firebase_options.dart';
 import 'package:ordering_system/routing/router.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +16,15 @@ void main() async{
   GlobalRouter.initialize();
 
   await AuthController.I.loadSession();
-  runApp(const MyApp());
+ runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FirebaseServices()),
+        // Add other providers here if needed
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
