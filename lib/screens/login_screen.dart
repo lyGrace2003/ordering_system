@@ -3,8 +3,6 @@ import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
 import 'package:ordering_system/routing/router.dart';
 import 'package:ordering_system/screens/register_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 
 class Loginscreen extends StatefulWidget {
   static const String route = '/';

@@ -20,6 +20,8 @@ class AuthController with ChangeNotifier {
 
   AuthState state = AuthState.unauthenticated;
 
+  String? userRole;
+
   listen() {
     currentAuthedUser = FirebaseAuth.instance.authStateChanges().listen(handleUserChanges);
   }
@@ -31,6 +33,16 @@ class AuthController with ChangeNotifier {
       state = AuthState.authenticated;
     }
     notifyListeners();
+  }
+
+  Future<String?> fetchUserRole(String uid) async {
+    try {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      userRole = userDoc['role'];
+      return userRole;
+    } catch (e) {
+      print('Error fetching user role: $e');
+    }
   }
 
   login(String email, String password) async {
@@ -61,6 +73,7 @@ class AuthController with ChangeNotifier {
     User? user = FirebaseAuth.instance.currentUser;
     handleUserChanges(user);
   } 
+
 }
 
 enum AuthState {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String route = '/register';
