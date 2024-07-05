@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
+import 'package:ordering_system/screens/customer/customer_cart_screen.dart';
+import 'package:ordering_system/screens/customer/customer_menu_screen.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   static const String route = '/customerhome';
@@ -13,23 +15,34 @@ class CustomerHomeScreen extends StatefulWidget {
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
+  int _selectedIndex = 0;
+
+  static const List<Widget> _screens = [
+    CustomerMenuScreen(),
+    CustomerCartScreen(),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text("Customer Home Screen"),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          height: 52,
-          child: ElevatedButton(
-            onPressed: () {
-              WaitingDialog.show(context, future: AuthController.I.logout());
-            },
-            child: const Text("Sign out"),
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Cart',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

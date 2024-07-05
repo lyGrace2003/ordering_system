@@ -61,11 +61,30 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
+ Future<custom_user.User> findUser(firebase_auth.User user) async {
+    try {
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      if (doc.exists) {
+        return custom_user.User(
+          id: doc.id,
+          firstName: doc['firstName'] ?? '',
+          lastName: doc['lastName'] ?? '',
+          email: doc['email'] ?? '',
+          role: doc['role'] ?? '',
+        );
+      } else {
+        throw Exception('User not found in Firestore');
+      }
+    } catch (e) {
+      print('Error fetching user from Firestore: $e');
+      throw Exception('Error fetching user from Firestore');
+    }
+  }
+
   // MENU
   Future<void> fetchMenuItems() async {
     try {
       final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('menu').get();
-
       _menuItems = snapshot.docs.map((doc) {
         return MenuItem(
           id: doc.id,

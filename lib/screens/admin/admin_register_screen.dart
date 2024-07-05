@@ -3,6 +3,8 @@ import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
 import 'package:ordering_system/firebase/services.dart';
 import 'package:ordering_system/model/user.dart';
+import 'package:ordering_system/util/app_style.dart';
+import 'package:ordering_system/util/size_config.dart';
 import 'package:provider/provider.dart';
 
 class AdminRegisterScreen extends StatefulWidget {
@@ -24,9 +26,10 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("App Users"),
+        title: Text("App Users", style: mRegular.copyWith(color: mBlack, fontSize: 23, letterSpacing: 2)),
         leading: IconButton(
           onPressed: () {
             Provider.of<FirebaseServices>(context, listen: false).fetchUsers();
@@ -38,7 +41,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
             onPressed: () {
               showNewPostFunction(context);
             },
-            icon: const Icon(Icons.add, color: Color(0xFF00BF62)),
+            icon: const Icon(Icons.add, color: mOrange),
           ),
           IconButton(
             onPressed: (){
@@ -62,8 +65,8 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
                   User user = userProvider.users[index];
                   return Card(
                     elevation: 4,
-                    child: ListTile(// Display image
-                      title:  Text('${user.firstName} ${user.lastName}',),
+                    child: ListTile(
+                      title:  Text('${user.firstName} ${user.lastName}', style: mRegular.copyWith(color: mBlack, fontSize: 16),),
                       subtitle: Text('role: ${user.role}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -153,14 +156,14 @@ class _AddUserDialogState extends State<AddUserDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      title: const Text(
+      title: Text(
         "Add new user",
-        style: TextStyle(color: Color(0xFF00BF62)),
+       style: mMedium.copyWith(color: mBlack, fontSize: 20),
       ),
       actions: [
         ElevatedButton(
           onPressed: _addUser,
-          child: const Text("Submit"),
+          child: Text("Submit", style: mRegular.copyWith(color: mBlack, fontSize: 14),),
         )
       ],
       content: SingleChildScrollView(
@@ -248,9 +251,9 @@ class _EditUserState extends State<EditUser> {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      title: const Text(
-        "Edit User's Role",
-        style: TextStyle(color: Color(0xFF00BF62)),
+      title: Text(
+        "Edit User's Rol",
+        style: mMedium.copyWith(color: mBlack, fontSize: 20),
       ),
       actions: [
         ElevatedButton(
@@ -261,7 +264,7 @@ class _EditUserState extends State<EditUser> {
             );
             Navigator.of(context).pop();
           },
-          child: const Text("Submit"),
+          child: Text("Submit", style: mRegular.copyWith(color: mBlack, fontSize: 14)),
         )
       ],
       content: SingleChildScrollView(

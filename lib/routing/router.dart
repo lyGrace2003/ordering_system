@@ -9,6 +9,8 @@ import 'package:ordering_system/screens/admin/admin_home_screen.dart';
 import 'package:ordering_system/screens/admin/admin_menu_screen.dart';
 import 'package:ordering_system/screens/admin/admin_register_screen.dart';
 import 'package:ordering_system/screens/cashier/cashier_home_screen.dart';
+import 'package:ordering_system/screens/customer/customer_cart_screen.dart';
+import 'package:ordering_system/screens/customer/customer_menu_screen.dart';
 import 'package:ordering_system/screens/customer/home_screen.dart';
 import 'package:ordering_system/screens/kitchen/kitchen_home_screen.dart';
 import 'package:ordering_system/screens/login_screen.dart';
@@ -33,7 +35,12 @@ class GlobalRouter{
       BuildContext context, GoRouterState state) async {
         User? user = FirebaseAuth.instance.currentUser;
         if (user == null) {
-          return Loginscreen.route; // Redirect to login if no current user
+          if (state.matchedLocation == Loginscreen.route) {
+            return Loginscreen.route;
+          }
+          if (state.matchedLocation == RegisterScreen.route) {
+            return RegisterScreen.route;
+          }
         }
         role = await AuthController.instance.fetchUserRole(user!.uid);
 
@@ -147,6 +154,22 @@ class GlobalRouter{
             name: AdminHomeScreen.name,
             builder: (context, _){
               return const AdminHomeScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: CustomerMenuScreen.route,
+            name: CustomerMenuScreen.name,
+            builder: (context, _){
+              return const CustomerMenuScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: CustomerCartScreen.route,
+            name: CustomerCartScreen.name,
+            builder: (context, _){
+              return const CustomerCartScreen();
             }
           ),
         ]

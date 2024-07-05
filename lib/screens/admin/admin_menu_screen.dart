@@ -3,6 +3,8 @@ import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
 import 'package:ordering_system/firebase/services.dart';
 import 'package:ordering_system/model/menu.dart';
+import 'package:ordering_system/util/app_style.dart';
+import 'package:ordering_system/util/size_config.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -26,9 +28,10 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Menu"),
+        title: Text("Menu", style: mRegular.copyWith(color: mBlack, fontSize: 23, letterSpacing: 2)),
         leading: IconButton(
           onPressed: () {
             Provider.of<FirebaseServices>(context, listen: false).fetchMenuItems();
@@ -40,7 +43,7 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
             onPressed: () {
               showNewPostFunction(context);
             },
-            icon: const Icon(Icons.add, color: Color(0xFF00BF62)),
+            icon: const Icon(Icons.add, color: mOrange),
           ),
           IconButton(
             onPressed: (){
@@ -65,9 +68,9 @@ class _AdminMenuScreenState extends State<AdminMenuScreen> {
                   return Card(
                     elevation: 4,
                     child: ListTile(
-                      leading: Image.network(menuItem.imageUrl), // Display image
-                      title: Text(menuItem.name),
-                      subtitle: Text('${menuItem.type} - \$${menuItem.price.toStringAsFixed(2)}'),
+                      leading: Image.network(menuItem.imageUrl),
+                      title: Text(menuItem.name, style: mRegular.copyWith(color: mBlack, fontSize: 16),),
+                      subtitle: Text('${menuItem.type} - P${menuItem.price.toStringAsFixed(2)}', style: mRegular.copyWith(color: mGrey, fontSize: 14)),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -165,9 +168,9 @@ class _AddPostDialogState extends State<AddPostDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      title: const Text(
+      title: Text(
         "Add new menu",
-        style: TextStyle(color: Color(0xFF00BF62)),
+        style: mMedium.copyWith(color: mBlack, fontSize: 20),
       ),
       actions: [
         ElevatedButton(
@@ -186,7 +189,7 @@ class _AddPostDialogState extends State<AddPostDialog> {
               );
             }
           },
-          child: const Text("Submit"),
+          child: Text("Submit", style: mRegular.copyWith(color: mBlack, fontSize: 14)),
         )
       ],
       content: SingleChildScrollView(
@@ -245,7 +248,7 @@ class EditMenu extends StatefulWidget {
 class _EditMenuState extends State<EditMenu> {
   late TextEditingController typeController, nameController, priceController;
   File? imageFile;
-  String? imageUrl; // Store the URL of the previous image
+  String? imageUrl;
 
   @override
   void initState() {
@@ -253,7 +256,7 @@ class _EditMenuState extends State<EditMenu> {
     typeController = TextEditingController(text: widget.menu.type);
     nameController = TextEditingController(text: widget.menu.name);
     priceController = TextEditingController(text: widget.menu.price.toString());
-    imageUrl = widget.menu.imageUrl; // Initialize imageUrl with the previous image URL
+    imageUrl = widget.menu.imageUrl; 
   }
 
   Future<void> _pickImage() async {
@@ -261,7 +264,7 @@ class _EditMenuState extends State<EditMenu> {
     setState(() {
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
-        imageUrl = null; // Set to null to show the new image picked by the user
+        imageUrl = null;
       }
     });
   }
@@ -270,9 +273,9 @@ class _EditMenuState extends State<EditMenu> {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      title: const Text(
+      title: Text(
         "Edit menu",
-        style: TextStyle(color: Color(0xFF00BF62)),
+        style: mMedium.copyWith(color: mBlack, fontSize: 20),
       ),
       actions: [
         ElevatedButton(
@@ -298,7 +301,7 @@ class _EditMenuState extends State<EditMenu> {
               Navigator.of(context).pop();
             }
           },
-          child: const Text("Submit"),
+          child: Text("Submit", style: mRegular.copyWith(color: mBlack, fontSize: 14)),
         )
       ],
       content: SingleChildScrollView(
@@ -324,7 +327,7 @@ class _EditMenuState extends State<EditMenu> {
             ),
             if (imageFile != null || imageUrl != null)
               Image.network(
-                imageUrl ?? widget.menu.imageUrl, // Display either new or previous image
+                imageUrl ?? widget.menu.imageUrl,
                 height: 100,
                 width: 100,
                 fit: BoxFit.cover,

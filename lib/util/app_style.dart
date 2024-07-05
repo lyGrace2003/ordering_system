@@ -5,7 +5,7 @@ const Color mWhite = Color(0xffffffff);
 const Color mLightWhite = Color(0xffeff5f4);
 const Color mLighterWhite = Color(0xfffcfcfc);
 
-const Color mGrey = Color(0xff9397a0);
+const Color mGrey = Color.fromARGB(255, 115, 116, 120);
 const Color kLightGrey = Color(0xffa7a7a7);
 const Color mBlack = Color.fromARGB(255, 0, 0, 0);
 
@@ -16,7 +16,7 @@ const Color mYellow = Color.fromRGBO(255, 179, 57, 1);
 const double mBorderRadius = 16.0;
 
 final ButtonStyle buttonOutlinedWhite = OutlinedButton.styleFrom(
-  foregroundColor: mWhite, minimumSize: const Size(200, 60),
+  foregroundColor: mWhite, minimumSize: const Size(150, 50),
   elevation: 0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
@@ -25,7 +25,7 @@ final ButtonStyle buttonOutlinedWhite = OutlinedButton.styleFrom(
 );
 
 final ButtonStyle buttonOutlinedOrange = OutlinedButton.styleFrom(
-  foregroundColor: mWhite, minimumSize: const Size(200, 60),
+  foregroundColor: mWhite, minimumSize: const Size(150, 50),
   elevation: 0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
@@ -34,7 +34,7 @@ final ButtonStyle buttonOutlinedOrange = OutlinedButton.styleFrom(
 );
 
 final ButtonStyle buttonWhite = ElevatedButton.styleFrom(
-  minimumSize: const Size(200, 60), 
+  minimumSize: const Size(150, 50), 
   backgroundColor: mWhite,
   elevation: 0,
   shape: const RoundedRectangleBorder(
@@ -43,7 +43,7 @@ final ButtonStyle buttonWhite = ElevatedButton.styleFrom(
 );
 
 final ButtonStyle buttonOrange = ElevatedButton.styleFrom(
-  minimumSize: const Size(200, 60), 
+  minimumSize: const Size(150, 50), 
   backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(
@@ -56,27 +56,27 @@ final mBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
 );
 
-final mExtraBold = GoogleFonts.montserrat(
+final mExtraBold = GoogleFonts.outfit(
   color: Colors.black,
   fontWeight: FontWeight.w800,
 );
 
-final mBold = GoogleFonts.montserrat(
+final mBold = GoogleFonts.outfit(
   color: Colors.black,
   fontWeight: FontWeight.w700,
 );
 
-final mSemibold = GoogleFonts.montserrat(
+final mSemibold = GoogleFonts.outfit(
   color: Colors.black,
   fontWeight: FontWeight.w600,
 );
 
-final mMedium = GoogleFonts.montserrat(
+final mMedium = GoogleFonts.outfit(
   color: Colors.black,
   fontWeight: FontWeight.w500,
 );
 
-final mRegular = GoogleFonts.montserrat(
+final mRegular = GoogleFonts.outfit(
   color: Colors.black,
   fontWeight: FontWeight.w400,
 );

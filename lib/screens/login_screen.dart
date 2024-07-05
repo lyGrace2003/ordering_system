@@ -3,6 +3,8 @@ import 'package:ordering_system/auth/authcontroller.dart';
 import 'package:ordering_system/dialog/dialog.dart';
 import 'package:ordering_system/routing/router.dart';
 import 'package:ordering_system/screens/register_screen.dart';
+import 'package:ordering_system/util/app_style.dart';
+import 'package:ordering_system/util/size_config.dart';
 
 class Loginscreen extends StatefulWidget {
   static const String route = '/';
@@ -36,38 +38,53 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('LOGIN', style: TextStyle(fontSize: 24)),
-              TextField(
-                controller: email,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextField(
-                controller: password,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                 onPressed: () {
-                    onSubmit();
+          child: Container(
+            width: SizeConfig.screenWidth,
+            height: SizeConfig.screenHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('LOGIN', style: mRegular.copyWith(color: mBlack, fontSize: 30, letterSpacing: 3)),
+                const SizedBox(height: 30,),
+                SizedBox(
+                  width: 320,
+                  child: TextField(
+                    controller: email,
+                    decoration: const InputDecoration(labelText: 'Email',),
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                SizedBox(
+                  width: 320,
+                  child: TextField(
+                    controller: password,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                  ),
+                ),
+                const SizedBox(height: 80),
+                ElevatedButton(
+                  style: buttonOrange,
+                   onPressed: () {
+                      onSubmit();
+                    },
+                    child: Text("Login", style: mRegular.copyWith(color: mBlack, fontSize: 16),),
+                ),
+                const SizedBox(height: 30,),
+                TextButton(
+                  onPressed: () {
+                    GlobalRouter.I.router.go(RegisterScreen.route);
                   },
-                  child: const Text("Login"),
-              ),
-              TextButton(
-                onPressed: () {
-                  GlobalRouter.I.router.go(RegisterScreen.route);
-                },
-                child: Text('Register'),
-              ),
-            ],
+                  child: Text('Don\'t have and account?  Register', style: mRegular.copyWith(color: mBlack, fontSize: 14),),
+                ),
+              ],
+            ),
           ),
         ),
       ),

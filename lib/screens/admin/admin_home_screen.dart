@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ordering_system/screens/admin/admin_menu_screen.dart';
 import 'package:ordering_system/screens/admin/admin_register_screen.dart';
+import 'package:ordering_system/util/app_style.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   static const String route = '/adminhome';
@@ -32,11 +33,11 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.menu, size: 30,),
             label: 'Menu',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, size: 30,),
             label: 'Register',
           ),
         ],
