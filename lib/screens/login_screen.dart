@@ -20,6 +20,9 @@ class _LoginscreenState extends State<Loginscreen> {
   late GlobalKey<FormState> formKey;
   late TextEditingController email, password;
 
+  bool isVisible = false;
+  bool isObscure = true;
+
   @override
   void initState() {
     super.initState();
@@ -64,8 +67,20 @@ class _LoginscreenState extends State<Loginscreen> {
                   width: 320,
                   child: TextField(
                     controller: password,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: isObscure,
                   ),
                 ),
                 const SizedBox(height: 80),

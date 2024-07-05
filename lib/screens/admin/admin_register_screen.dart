@@ -124,6 +124,8 @@ class AddUserDialog extends StatefulWidget {
 class _AddUserDialogState extends State<AddUserDialog> {
   late TextEditingController firstNameController, lastNameController, emailController, passwordController;
   String selectedRole = 'Customer';
+  bool isVisible = false;
+  bool isObscure = true;
 
   @override
   void initState() {
@@ -183,10 +185,22 @@ class _AddUserDialogState extends State<AddUserDialog> {
               keyboardType: TextInputType.emailAddress,
             ),
             TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(labelText: "Password"),
-              obscureText: true,
-            ),
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: isObscure,
+                  ),
             const SizedBox(height: 25,),
             DropdownButtonFormField<String>(
               value: selectedRole,

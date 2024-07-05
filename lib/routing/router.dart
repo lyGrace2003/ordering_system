@@ -41,6 +41,7 @@ class GlobalRouter{
           if (state.matchedLocation == RegisterScreen.route) {
             return RegisterScreen.route;
           }
+          return Loginscreen.route;
         }
         role = await AuthController.instance.fetchUserRole(user!.uid);
 

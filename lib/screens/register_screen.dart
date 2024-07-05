@@ -18,7 +18,9 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late GlobalKey<FormState> formKey;
-  late TextEditingController firstname, lastname, email, password;
+  late TextEditingController firstname, lastname, email, password, confrimPass;
+  bool isVisible = false;
+  bool isObscure = true;
 
    @override
   void initState() {
@@ -28,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     lastname = TextEditingController();
     email = TextEditingController();
     password = TextEditingController();
+    confrimPass = TextEditingController();
   }
 
   @override
@@ -82,17 +85,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 320,
-                      child: TextField(
-                        controller: password,
-                        decoration: const InputDecoration(labelText: 'Password'),
-                        obscureText: true,
+                      child:  TextField(
+                    controller: password,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
                       ),
+                    ),
+                    obscureText: isObscure,
+                  ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 320,
+                      child:  TextField(
+                    controller: confrimPass,
+                    decoration: InputDecoration(
+                      labelText: 'Confrim Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: isObscure,
+                  ),
                     ),
                     const SizedBox(height: 80),
                     ElevatedButton(
                       style: buttonOrange,
                       onPressed: () {
+                        if(confrimPass == password){
                         onSubmit();
+                        }
                       },
                       child: Text("Register", style: mRegular.copyWith(color: mBlack, fontSize: 14),),
                     ),

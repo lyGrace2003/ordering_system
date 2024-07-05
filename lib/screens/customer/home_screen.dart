@@ -37,8 +37,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             label: 'Menu',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Cart',
+            icon: Icon(Icons.shopping_bag),
+            label: 'Order',
           ),
         ],
         currentIndex: _selectedIndex,
