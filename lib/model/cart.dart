@@ -20,4 +20,14 @@ class CartItem{
     required this.total,
     required this.imageUrl
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'quantity': quantity,
+      'total': total,
+      'imageUrl': imageUrl,
+    };
+  }
 }

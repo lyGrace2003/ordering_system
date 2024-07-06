@@ -103,34 +103,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: isObscure,
                   ),
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: 320,
-                      child:  TextField(
-                    controller: confrimPass,
-                    decoration: InputDecoration(
-                      labelText: 'Confrim Password',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          isObscure ? Icons.visibility : Icons.visibility_off,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isObscure = !isObscure;
-                          });
-                        },
-                      ),
-                    ),
-                    obscureText: isObscure,
-                  ),
-                    ),
                     const SizedBox(height: 80),
                     ElevatedButton(
                       style: buttonOrange,
                       onPressed: () {
-                        if(confrimPass == password){
                         onSubmit();
-                        }
                       },
                       child: Text("Register", style: mRegular.copyWith(color: mBlack, fontSize: 14),),
                     ),

@@ -226,4 +226,38 @@ class FirebaseServices extends ChangeNotifier {
       print('Error deleting menu item: $e');
     }
   }
+
+  //ORDERS
+  Future<void> placeOrder(List<CartItem> cartItems, double cartTotal) async {
+  firebase_auth.User? currentUser = firebase_auth.FirebaseAuth.instance.currentUser;
+  if (currentUser == null) {
+    print('No user is currently logged in');
+    return;
+  }
+
+  try {
+    custom_user.User currentuserinfo = await findUser(currentUser);
+
+    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
+    List<Map<String, dynamic>> cartItemsData = cartItems.map((item) => item.toMap()).toList();
+
+    DocumentReference newOrderRef = await orders.add({
+      'status': 'pending',
+      'createdAt': DateTime.now(),
+      'customerID': currentuserinfo.id,
+      'customerFirstName': currentuserinfo.firstName,
+      'customerLastName': currentuserinfo.lastName,
+      'cartTotal': cartTotal,
+      'cartItems': cartItemsData,
+    });
+
+    for (var item in cartItems) {
+      await deleteCartItem(item.id);
+    }
+
+    print('Order placed successfully: ${newOrderRef.id}');
+  } catch (e) {
+    print('Failed to place order: $e');
+  }
+  }
 }

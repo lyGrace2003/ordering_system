@@ -121,16 +121,17 @@ class _ItemDetailState extends State<ItemDetail> {
               ],
             ),
           ),
-          SizedBox(height: SizeConfig.screenHeight!/5,),
-          ElevatedButton(
-            style: longButtonOrange,
-            onPressed: (){
-              getTotal();
-              addtoCart(widget.item, currentUserinfo, widget.item.type, widget.item.name, widget.item.price, quantity, total, widget.item.imageUrl);
-            },
-            child: Text("Add to Basket", style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*4),))
+          // SizedBox(height: SizeConfig.screenHeight!/9,),
         ],
       ),
+      bottomSheet: 
+      ElevatedButton(
+        style: longButtonOrange,
+        onPressed: (){
+          getTotal();
+          addtoCart(widget.item, currentUserinfo, widget.item.type, widget.item.name, widget.item.price, quantity, total, widget.item.imageUrl);
+        },
+        child: Text("Add to Basket", style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*4),)),
     );
   }
 
@@ -139,5 +140,8 @@ class _ItemDetailState extends State<ItemDetail> {
     String itemID = item.id;
     Provider.of<FirebaseServices>(context, listen: false).addCartItem(
       itemID, userID, type, name, price, quantity, total, imageFilePath);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$name added to the cart')),
+      );
   }
 }

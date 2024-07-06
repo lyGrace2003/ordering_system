@@ -73,8 +73,8 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                         SizedBox(height: 20),
                         ElevatedButton(
                           style: longButtonOrange,
-                          onPressed: () {
-                            // Handle place order action
+                          onPressed: () async{
+                            await Provider.of<FirebaseServices>(context, listen: false).placeOrder(cartProvider.cartItems, cartTotal);
                           },
                           child: Text(
                             "Place Order PHP${cartTotal.toStringAsFixed(2)}",

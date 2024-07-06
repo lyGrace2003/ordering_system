@@ -43,6 +43,7 @@ class AuthController with ChangeNotifier {
     } catch (e) {
       print('Error fetching user role: $e');
     }
+    return null;
   }
 
   login(String email, String password) async {
