@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ordering_system/auth/authcontroller.dart';
+import 'package:ordering_system/model/menu.dart';
 import 'package:ordering_system/screens/admin/admin_home_screen.dart';
 import 'package:ordering_system/screens/admin/admin_menu_screen.dart';
 import 'package:ordering_system/screens/admin/admin_register_screen.dart';
@@ -12,6 +13,7 @@ import 'package:ordering_system/screens/cashier/cashier_home_screen.dart';
 import 'package:ordering_system/screens/customer/customer_cart_screen.dart';
 import 'package:ordering_system/screens/customer/customer_menu_screen.dart';
 import 'package:ordering_system/screens/customer/home_screen.dart';
+import 'package:ordering_system/screens/customer/item_detail.dart';
 import 'package:ordering_system/screens/kitchen/kitchen_home_screen.dart';
 import 'package:ordering_system/screens/login_screen.dart';
 import 'package:ordering_system/screens/register_screen.dart';
@@ -171,6 +173,15 @@ class GlobalRouter{
             name: CustomerCartScreen.name,
             builder: (context, _){
               return const CustomerCartScreen();
+            }
+          ),
+          GoRoute(
+            parentNavigatorKey: _rootNavigatorKey,
+            path: ItemDetail.route,
+            name: ItemDetail.name,
+            builder: (context, state){
+              final item = state.extra as MenuItem;
+              return ItemDetail(item: item);
             }
           ),
         ]

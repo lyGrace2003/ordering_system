@@ -15,22 +15,13 @@ const Color mYellow = Color.fromRGBO(255, 179, 57, 1);
 
 const double mBorderRadius = 16.0;
 
-final ButtonStyle buttonOutlinedWhite = OutlinedButton.styleFrom(
-  foregroundColor: mWhite, minimumSize: const Size(150, 50),
+final ButtonStyle orangeTagButton = ElevatedButton.styleFrom(
+  minimumSize: const Size(100, 50), 
+  backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+      borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
   ),
-  side: const BorderSide(width: 3,color: mWhite,)
-);
-
-final ButtonStyle buttonOutlinedOrange = OutlinedButton.styleFrom(
-  foregroundColor: mWhite, minimumSize: const Size(150, 50),
-  elevation: 0,
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
-  ),
-  side: const BorderSide(width: 3,color: mBrightOrange,)
 );
 
 final ButtonStyle buttonWhite = ElevatedButton.styleFrom(
@@ -44,6 +35,15 @@ final ButtonStyle buttonWhite = ElevatedButton.styleFrom(
 
 final ButtonStyle buttonOrange = ElevatedButton.styleFrom(
   minimumSize: const Size(150, 50), 
+  backgroundColor: mBrightOrange,
+  elevation: 0,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+  ),
+);
+
+final ButtonStyle longButtonOrange = ElevatedButton.styleFrom(
+  minimumSize: const Size(300, 70), 
   backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(

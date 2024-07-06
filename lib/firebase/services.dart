@@ -1,17 +1,20 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth; // alias firebase_auth
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth; 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:ordering_system/model/cart.dart';
 import 'package:ordering_system/model/menu.dart';
-import 'package:ordering_system/model/user.dart' as custom_user; // alias your custom User model
+import 'package:ordering_system/model/user.dart' as custom_user; 
 
 class FirebaseServices extends ChangeNotifier {
   List<MenuItem> _menuItems = [];
   List<MenuItem> get menuItems => _menuItems;
-  List<custom_user.User> _users = []; // use custom_user.User for your custom User model
+  List<custom_user.User> _users = [];
   List<custom_user.User> get users => _users;
+  List<CartItem> _cartItems = [];
+  List<CartItem> get cartItems => _cartItems;
 
   // USERS
   Future<void> fetchUsers() async {
@@ -159,6 +162,68 @@ class FirebaseServices extends ChangeNotifier {
       await fetchMenuItems();
     } catch (e) {
       print('Error updating menu item: $e');
+    }
+  }
+
+  //CART
+  Future<void> fetchCartItems() async {
+    try {
+      firebase_auth.User? currentUser = firebase_auth.FirebaseAuth.instance.currentUser;
+      if (currentUser == null) {
+        throw Exception('No user logged in');
+      }
+
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('cart')
+          .where('userID', isEqualTo: currentUser.uid)
+          .get();
+
+      _cartItems = snapshot.docs.map((doc) {
+        return CartItem(
+          id: doc.id,
+          itemID: doc['itemID'] ?? '',
+          userID: doc['userID'] ?? '',
+          type: doc['type'] ?? '',
+          name: doc['name'] ?? '',
+          price: (doc['price'] ?? 0.0).toDouble(),
+          quantity: doc['quantity'] ?? 0,
+          total: (doc['total'] ?? 0.0).toDouble(),
+          imageUrl: doc['image'] ?? '',
+        );
+      }).toList();
+
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching cart items: $e');
+    }
+  }
+
+  Future<void> addCartItem(String itemID, String userID, String type, String name, double price, int quantity, double total, String imageFilePath) async {
+    try {
+      final docRef = await FirebaseFirestore.instance.collection('cart').add({
+        'itemID': itemID,
+        'userID': userID,
+        'type': type,
+        'name': name,
+        'price': price,
+        'quantity': quantity,
+        'total': total,
+        'image': imageFilePath,
+      });
+
+      await fetchMenuItems();
+    } catch (e) {
+      print('Error adding menu item to cart: $e');
+    }
+  }
+
+  Future<void> deleteCartItem(String cartItemID) async {
+    try {
+       await FirebaseFirestore.instance.collection('cart').doc(cartItemID).delete();
+
+      await fetchCartItems();
+    } catch (e) {
+      print('Error deleting menu item: $e');
     }
   }
 }
