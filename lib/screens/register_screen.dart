@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         padding: const EdgeInsets.only(left:16.0, right: 16.0,bottom: 16.0, top: 5.0),
         child: Form(
           key: formKey,
-          child: Container(
+          child: SizedBox(
             width: SizeConfig.screenWidth,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

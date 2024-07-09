@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ordering_system/screens/admin/admin_menu_screen.dart';
 import 'package:ordering_system/screens/admin/admin_register_screen.dart';
-import 'package:ordering_system/util/app_style.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   static const String route = '/adminhome';

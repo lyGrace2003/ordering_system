@@ -1,12 +1,13 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth; 
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:ordering_system/model/cart.dart';
 import 'package:ordering_system/model/menu.dart';
-import 'package:ordering_system/model/user.dart' as custom_user; 
+import 'package:ordering_system/model/user.dart' as custom_user;
+import 'package:ordering_system/model/order.dart';
 
 class FirebaseServices extends ChangeNotifier {
   List<MenuItem> _menuItems = [];
@@ -15,11 +16,14 @@ class FirebaseServices extends ChangeNotifier {
   List<custom_user.User> get users => _users;
   List<CartItem> _cartItems = [];
   List<CartItem> get cartItems => _cartItems;
+  List<OrderItem> _orderItems = []; // Define _orders for storing fetched orders
+  List<OrderItem> get orderItems => _orderItems; // Getter for _orders
 
   // USERS
   Future<void> fetchUsers() async {
     try {
-      final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users').get();
+      final QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('users').get();
 
       _users = snapshot.docs.map((doc) {
         return custom_user.User(
@@ -37,10 +41,16 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
-  Future<void> addUser(String firstName, String lastName, String email, String password, String role) async {
+  Future<void> addUser(String firstName, String lastName, String email,
+      String password, String role) async {
     try {
-      firebase_auth.UserCredential userCredential = await firebase_auth.FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      firebase_auth.UserCredential userCredential = await firebase_auth
+          .FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
         'firstName': firstName,
         'lastName': lastName,
         'email': email,
@@ -64,9 +74,12 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
- Future<custom_user.User> findUser(firebase_auth.User user) async {
+  Future<custom_user.User> findUser(firebase_auth.User user) async {
     try {
-      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
       if (doc.exists) {
         return custom_user.User(
           id: doc.id,
@@ -87,7 +100,8 @@ class FirebaseServices extends ChangeNotifier {
   // MENU
   Future<void> fetchMenuItems() async {
     try {
-      final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('menu').get();
+      final QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('menu').get();
       _menuItems = snapshot.docs.map((doc) {
         return MenuItem(
           id: doc.id,
@@ -104,7 +118,8 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
-  Future<void> addMenuItem(String type, String name, double price, String imageFilePath) async {
+  Future<void> addMenuItem(
+      String type, String name, double price, String imageFilePath) async {
     try {
       final storageRef = FirebaseStorage.instance.ref().child('menu/$name.jpg');
       await storageRef.putFile(File(imageFilePath));
@@ -125,12 +140,18 @@ class FirebaseServices extends ChangeNotifier {
 
   Future<void> deleteMenuItem(String menuItemId) async {
     try {
-      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance.collection('menu').doc(menuItemId).get();
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('menu')
+          .doc(menuItemId)
+          .get();
 
       if (docSnapshot.exists) {
         String imageUrl = docSnapshot['image'];
 
-        await FirebaseFirestore.instance.collection('menu').doc(menuItemId).delete();
+        await FirebaseFirestore.instance
+            .collection('menu')
+            .doc(menuItemId)
+            .delete();
 
         final storageRef = FirebaseStorage.instance.refFromURL(imageUrl);
         await storageRef.delete();
@@ -142,17 +163,22 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
-  Future<void> updateMenuItem(MenuItem menuItem, String type, String name, double price, String imageFilePath) async {
+  Future<void> updateMenuItem(MenuItem menuItem, String type, String name,
+      double price, String imageFilePath) async {
     try {
       String imageUrl = menuItem.imageUrl;
 
       if (imageFilePath.isNotEmpty) {
-        final storageRef = FirebaseStorage.instance.ref().child('menu/$name.jpg');
+        final storageRef =
+            FirebaseStorage.instance.ref().child('menu/$name.jpg');
         await storageRef.putFile(File(imageFilePath));
         imageUrl = await storageRef.getDownloadURL();
       }
 
-      await FirebaseFirestore.instance.collection('menu').doc(menuItem.id).update({
+      await FirebaseFirestore.instance
+          .collection('menu')
+          .doc(menuItem.id)
+          .update({
         'type': type,
         'name': name,
         'price': price,
@@ -168,7 +194,8 @@ class FirebaseServices extends ChangeNotifier {
   //CART
   Future<void> fetchCartItems() async {
     try {
-      firebase_auth.User? currentUser = firebase_auth.FirebaseAuth.instance.currentUser;
+      firebase_auth.User? currentUser =
+          firebase_auth.FirebaseAuth.instance.currentUser;
       if (currentUser == null) {
         throw Exception('No user logged in');
       }
@@ -198,7 +225,15 @@ class FirebaseServices extends ChangeNotifier {
     }
   }
 
-  Future<void> addCartItem(String itemID, String userID, String type, String name, double price, int quantity, double total, String imageFilePath) async {
+  Future<void> addCartItem(
+      String itemID,
+      String userID,
+      String type,
+      String name,
+      double price,
+      int quantity,
+      double total,
+      String imageFilePath) async {
     try {
       final docRef = await FirebaseFirestore.instance.collection('cart').add({
         'itemID': itemID,
@@ -219,7 +254,10 @@ class FirebaseServices extends ChangeNotifier {
 
   Future<void> deleteCartItem(String cartItemID) async {
     try {
-       await FirebaseFirestore.instance.collection('cart').doc(cartItemID).delete();
+      await FirebaseFirestore.instance
+          .collection('cart')
+          .doc(cartItemID)
+          .delete();
 
       await fetchCartItems();
     } catch (e) {
@@ -228,36 +266,87 @@ class FirebaseServices extends ChangeNotifier {
   }
 
   //ORDERS
-  Future<void> placeOrder(List<CartItem> cartItems, double cartTotal) async {
-  firebase_auth.User? currentUser = firebase_auth.FirebaseAuth.instance.currentUser;
-  if (currentUser == null) {
-    print('No user is currently logged in');
-    return;
+  Future<void> fetchOrders() async {
+    try {
+      firebase_auth.User? currentUser =
+          firebase_auth.FirebaseAuth.instance.currentUser;
+      if (currentUser == null) {
+        throw Exception('No user logged in');
+      }
+
+      //final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('orders').get();
+
+      final QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('orders').get();
+
+      _orderItems = snapshot.docs.map((doc) {
+        // Extract data from Firestore document
+        List<dynamic> cartItemsData = doc['cartItems'];
+        List<CartItem> cartItems = cartItemsData.map((itemData) {
+          return CartItem(
+            id: itemData['id'],
+            itemID: itemData['itemID'],
+            userID: itemData['userID'],
+            type: itemData['type'],
+            name: itemData['name'],
+            price: itemData['price'].toDouble(),
+            quantity: itemData['quantity'],
+            total: itemData['total'].toDouble(),
+            imageUrl: itemData['imageUrl'],
+          );
+        }).toList();
+
+        return OrderItem(
+          id: doc.id,
+          status: doc['status'],
+          createdAt: doc['createdAt'].toDate(),
+          customerID: doc['customerID'],
+          customerFirstName: doc['customerFirstName'],
+          customerLastName: doc['customerLastName'],
+          cartTotal: doc['cartTotal'].toDouble(),
+          cartItems: cartItems,
+        );
+      }).toList();
+
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching cart items: $e');
+    }
   }
 
-  try {
-    custom_user.User currentuserinfo = await findUser(currentUser);
-
-    CollectionReference orders = FirebaseFirestore.instance.collection('orders');
-    List<Map<String, dynamic>> cartItemsData = cartItems.map((item) => item.toMap()).toList();
-
-    DocumentReference newOrderRef = await orders.add({
-      'status': 'pending',
-      'createdAt': DateTime.now(),
-      'customerID': currentuserinfo.id,
-      'customerFirstName': currentuserinfo.firstName,
-      'customerLastName': currentuserinfo.lastName,
-      'cartTotal': cartTotal,
-      'cartItems': cartItemsData,
-    });
-
-    for (var item in cartItems) {
-      await deleteCartItem(item.id);
+  Future<void> placeOrder(List<CartItem> cartItems, double cartTotal) async {
+    firebase_auth.User? currentUser =
+        firebase_auth.FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      print('No user is currently logged in');
+      return;
     }
 
-    print('Order placed successfully: ${newOrderRef.id}');
-  } catch (e) {
-    print('Failed to place order: $e');
-  }
+    try {
+      custom_user.User currentuserinfo = await findUser(currentUser);
+
+      CollectionReference orders =
+          FirebaseFirestore.instance.collection('orders');
+      List<Map<String, dynamic>> cartItemsData =
+          cartItems.map((item) => item.toMap()).toList();
+
+      DocumentReference newOrderRef = await orders.add({
+        'status': 'pending',
+        'createdAt': DateTime.now(),
+        'customerID': currentuserinfo.id,
+        'customerFirstName': currentuserinfo.firstName,
+        'customerLastName': currentuserinfo.lastName,
+        'cartTotal': cartTotal,
+        'cartItems': cartItemsData,
+      });
+
+      for (var item in cartItems) {
+        await deleteCartItem(item.id);
+      }
+
+      print('Order placed successfully: ${newOrderRef.id}');
+    } catch (e) {
+      print('Failed to place order: $e');
+    }
   }
 }

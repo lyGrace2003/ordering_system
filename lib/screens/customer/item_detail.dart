@@ -8,10 +8,10 @@ import 'package:ordering_system/util/size_config.dart';
 import 'package:provider/provider.dart';
 
 class ItemDetail extends StatefulWidget {
-  static const String route =  '/itemdetail';
+  static const String route = '/itemdetail';
 
   static const String name = 'ItemDetailScreen';
-  
+
   final MenuItem item;
 
   const ItemDetail({super.key, required this.item});
@@ -26,6 +26,7 @@ class _ItemDetailState extends State<ItemDetail> {
   int quantity = 1;
   double total = 0;
 
+  @override
   void initState() {
     super.initState();
     _getCurrentUser();
@@ -46,7 +47,9 @@ class _ItemDetailState extends State<ItemDetail> {
   Future<void> _loadCurrentUser() async {
     if (currentUser != null) {
       try {
-        custom_user.User user = await Provider.of<FirebaseServices>(context, listen: false).findUser(currentUser!);
+        custom_user.User user =
+            await Provider.of<FirebaseServices>(context, listen: false)
+                .findUser(currentUser!);
         setState(() {
           currentUserinfo = user;
         });
@@ -70,7 +73,7 @@ class _ItemDetailState extends State<ItemDetail> {
     }
   }
 
-  void getTotal(){
+  void getTotal() {
     setState(() {
       total = widget.item.price * quantity;
     });
@@ -81,23 +84,41 @@ class _ItemDetailState extends State<ItemDetail> {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.item.name, style: mMedium.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*5),),
+        title: Text(
+          widget.item.name,
+          style: mMedium.copyWith(
+              color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 5),
+        ),
       ),
       body: Column(
         children: [
           Image.network(widget.item.imageUrl),
-          SizedBox(height: SizeConfig.blocksHorizontal!*3,),
+          SizedBox(
+            height: SizeConfig.blocksHorizontal! * 3,
+          ),
           Container(
             padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Type: ${widget.item.type}', style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*5),),
-                Text('${widget.item.price} PHP', style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*5),),
+                Text(
+                  'Type: ${widget.item.type}',
+                  style: mRegular.copyWith(
+                      color: mBlack,
+                      fontSize: SizeConfig.blocksHorizontal! * 5),
+                ),
+                Text(
+                  '${widget.item.price} PHP',
+                  style: mRegular.copyWith(
+                      color: mBlack,
+                      fontSize: SizeConfig.blocksHorizontal! * 5),
+                ),
               ],
             ),
           ),
-          SizedBox(height: SizeConfig.blocksHorizontal!*3,),
+          SizedBox(
+            height: SizeConfig.blocksHorizontal! * 3,
+          ),
           Container(
             padding: const EdgeInsets.all(20.0),
             child: Row(
@@ -124,24 +145,43 @@ class _ItemDetailState extends State<ItemDetail> {
           // SizedBox(height: SizeConfig.screenHeight!/9,),
         ],
       ),
-      bottomSheet: 
-      ElevatedButton(
-        style: longButtonOrange,
-        onPressed: (){
-          getTotal();
-          addtoCart(widget.item, currentUserinfo, widget.item.type, widget.item.name, widget.item.price, quantity, total, widget.item.imageUrl);
-        },
-        child: Text("Add to Basket", style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal!*4),)),
+      bottomSheet: ElevatedButton(
+          style: longButtonOrange,
+          onPressed: () {
+            getTotal();
+            addtoCart(
+                widget.item,
+                currentUserinfo,
+                widget.item.type,
+                widget.item.name,
+                widget.item.price,
+                quantity,
+                total,
+                widget.item.imageUrl);
+          },
+          child: Text(
+            "Add to Basket",
+            style: mRegular.copyWith(
+                color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 4),
+          )),
     );
   }
 
-  Future<void> addtoCart(MenuItem item, custom_user.User? user, String type, String name, double price, int quantity, double total, String imageFilePath) async{
+  Future<void> addtoCart(
+      MenuItem item,
+      custom_user.User? user,
+      String type,
+      String name,
+      double price,
+      int quantity,
+      double total,
+      String imageFilePath) async {
     String userID = user!.id;
     String itemID = item.id;
     Provider.of<FirebaseServices>(context, listen: false).addCartItem(
-      itemID, userID, type, name, price, quantity, total, imageFilePath);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$name added to the cart')),
-      );
+        itemID, userID, type, name, price, quantity, total, imageFilePath);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$name added to the cart')),
+    );
   }
 }

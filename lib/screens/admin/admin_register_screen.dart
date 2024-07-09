@@ -113,7 +113,7 @@ class AddUserDialog extends StatefulWidget {
     );
   }
 
-  const AddUserDialog(this.controller, {Key? key}) : super(key: key);
+  const AddUserDialog(this.controller, {super.key});
 
   final FirebaseServices controller;
 
@@ -246,7 +246,7 @@ class EditUser extends StatefulWidget {
   final User userRole;
   final FirebaseServices controller;
 
-  const EditUser(this.userRole, this.controller, {Key? key}) : super(key: key);
+  const EditUser(this.userRole, this.controller, {super.key});
 
   @override
   _EditUserState createState() => _EditUserState();

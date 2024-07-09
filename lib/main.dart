@@ -6,7 +6,7 @@ import 'package:ordering_system/firebase_options.dart';
 import 'package:ordering_system/routing/router.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -16,13 +16,13 @@ void main() async{
   GlobalRouter.initialize();
 
   await AuthController.I.loadSession();
- runApp(
+  runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FirebaseServices()),
         // Add other providers here if needed
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

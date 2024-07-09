@@ -9,7 +9,7 @@ class CustomerCartScreen extends StatefulWidget {
   static const String route = '/customercart';
 
   static const String name = 'CustomerCartScreen';
-  const CustomerCartScreen({Key? key}) : super(key: key);
+  const CustomerCartScreen({super.key});
 
   @override
   State<CustomerCartScreen> createState() => _CustomerCartScreenState();
@@ -30,7 +30,11 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Order",style: mMedium.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 5),),
+        title: Text(
+          "My Order",
+          style: mMedium.copyWith(
+              color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 5),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,7 +45,12 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                 builder: (context, cartProvider, _) {
                   if (cartProvider.cartItems.isEmpty) {
                     return Center(
-                      child: Text("Cart is empty",style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 5),),
+                      child: Text(
+                        "Cart is empty",
+                        style: mRegular.copyWith(
+                            color: mBlack,
+                            fontSize: SizeConfig.blocksHorizontal! * 5),
+                      ),
                     );
                   } else {
                     cartTotal = calculateCartTotal(cartProvider.cartItems);
@@ -57,8 +66,15 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                                 elevation: 4,
                                 child: ListTile(
                                   leading: Image.network(cartItem.imageUrl),
-                                  title: Text(cartItem.name,style: mRegular.copyWith(color: mBlack, fontSize: 16),),
-                                  subtitle: Text('Qty: ${cartItem.quantity} - P${cartItem.total.toStringAsFixed(2)}',style: mRegular.copyWith(color: mGrey, fontSize: 14)),
+                                  title: Text(
+                                    cartItem.name,
+                                    style: mRegular.copyWith(
+                                        color: mBlack, fontSize: 16),
+                                  ),
+                                  subtitle: Text(
+                                      'Qty: ${cartItem.quantity} - P${cartItem.total.toStringAsFixed(2)}',
+                                      style: mRegular.copyWith(
+                                          color: mGrey, fontSize: 14)),
                                   trailing: IconButton(
                                     onPressed: () {
                                       deleteMenuItem(context, cartItem.id);
@@ -70,15 +86,19 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
                             },
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           style: longButtonOrange,
-                          onPressed: () async{
-                            await Provider.of<FirebaseServices>(context, listen: false).placeOrder(cartProvider.cartItems, cartTotal);
+                          onPressed: () async {
+                            await Provider.of<FirebaseServices>(context,
+                                    listen: false)
+                                .placeOrder(cartProvider.cartItems, cartTotal);
                           },
                           child: Text(
                             "Place Order PHP${cartTotal.toStringAsFixed(2)}",
-                            style: mRegular.copyWith(color: mBlack, fontSize: SizeConfig.blocksHorizontal! * 4),
+                            style: mRegular.copyWith(
+                                color: mBlack,
+                                fontSize: SizeConfig.blocksHorizontal! * 4),
                           ),
                         ),
                       ],
@@ -103,7 +123,8 @@ class _CustomerCartScreenState extends State<CustomerCartScreen> {
 
   void deleteMenuItem(BuildContext context, String cartItemID) async {
     try {
-      await Provider.of<FirebaseServices>(context, listen: false).deleteCartItem(cartItemID);
+      await Provider.of<FirebaseServices>(context, listen: false)
+          .deleteCartItem(cartItemID);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Menu item deleted successfully')),
       );

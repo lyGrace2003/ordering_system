@@ -13,7 +13,7 @@ class AdminMenuScreen extends StatefulWidget {
   static const String route = '/adminmenu';
   static const String name = 'AdminMenuScreen';
 
-  const AdminMenuScreen({Key? key}) : super(key: key);
+  const AdminMenuScreen({super.key});
 
   @override
   State<AdminMenuScreen> createState() => _AdminMenuScreenState();
@@ -135,7 +135,7 @@ class AddPostDialog extends StatefulWidget {
         builder: (dContext) => AddPostDialog(controller),
       );
 
-  const AddPostDialog(this.controller, {Key? key}) : super(key: key);
+  const AddPostDialog(this.controller, {super.key});
 
   final FirebaseServices controller;
 
@@ -239,7 +239,7 @@ class EditMenu extends StatefulWidget {
   final MenuItem menu;
   final FirebaseServices controller;
 
-  const EditMenu(this.menu,this.controller, {Key? key}) : super(key: key);
+  const EditMenu(this.menu,this.controller, {super.key});
 
   @override
   _EditMenuState createState() => _EditMenuState();

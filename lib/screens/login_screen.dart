@@ -47,7 +47,7 @@ class _LoginscreenState extends State<Loginscreen> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: formKey,
-          child: Container(
+          child: SizedBox(
             width: SizeConfig.screenWidth,
             height: SizeConfig.screenHeight,
             child: Column(

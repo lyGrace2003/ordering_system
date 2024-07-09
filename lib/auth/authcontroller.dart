@@ -61,7 +61,7 @@ class AuthController with ChangeNotifier {
       });
     } catch (e) {
       print('Error registering user: $e');
-      throw e;
+      rethrow;
     }
   }
 

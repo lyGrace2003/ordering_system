@@ -16,38 +16,46 @@ const Color mYellow = Color.fromRGBO(255, 179, 57, 1);
 const double mBorderRadius = 16.0;
 
 final ButtonStyle orangeTagButton = ElevatedButton.styleFrom(
-  minimumSize: const Size(100, 50), 
+  minimumSize: const Size(100, 50),
   backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+    borderRadius: BorderRadius.all(
+      Radius.circular(mBorderRadius),
+    ),
   ),
 );
 
 final ButtonStyle buttonWhite = ElevatedButton.styleFrom(
-  minimumSize: const Size(150, 50), 
+  minimumSize: const Size(150, 50),
   backgroundColor: mWhite,
   elevation: 0,
   shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+    borderRadius: BorderRadius.all(
+      Radius.circular(mBorderRadius),
+    ),
   ),
 );
 
 final ButtonStyle buttonOrange = ElevatedButton.styleFrom(
-  minimumSize: const Size(150, 50), 
+  minimumSize: const Size(150, 50),
   backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+    borderRadius: BorderRadius.all(
+      Radius.circular(mBorderRadius),
+    ),
   ),
 );
 
 final ButtonStyle longButtonOrange = ElevatedButton.styleFrom(
-  minimumSize: const Size(300, 70), 
+  minimumSize: const Size(300, 70),
   backgroundColor: mBrightOrange,
   elevation: 0,
   shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(mBorderRadius),),
+    borderRadius: BorderRadius.all(
+      Radius.circular(mBorderRadius),
+    ),
   ),
 );
 

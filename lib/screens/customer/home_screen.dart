@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ordering_system/auth/authcontroller.dart';
-import 'package:ordering_system/dialog/dialog.dart';
 import 'package:ordering_system/screens/customer/customer_cart_screen.dart';
 import 'package:ordering_system/screens/customer/customer_menu_screen.dart';
 
