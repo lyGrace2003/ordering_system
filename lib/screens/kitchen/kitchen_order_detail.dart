@@ -55,7 +55,7 @@ class _KitchenOrderDetailState extends State<KitchenOrderDetail> {
                             'Quantity: ${item['quantity']}',
                             style: const TextStyle(fontSize: 13),
                           ),
-                          Text('Total: \$${item['total']}',
+                          Text('Total: PHP${item['total']}',
                               style: const TextStyle(fontSize: 13))
                         ],
                       ),
@@ -63,7 +63,7 @@ class _KitchenOrderDetailState extends State<KitchenOrderDetail> {
                   }).toList(),
                 ),
                 const SizedBox(height: 20),
-                Text('Total: \$${data?['cartTotal'] ?? 'N/A'}',
+                Text('Total: PHP${data?['cartTotal'] ?? 'N/A'}',
                     style: mSemibold),
                 const SizedBox(height: 20),
               ],
